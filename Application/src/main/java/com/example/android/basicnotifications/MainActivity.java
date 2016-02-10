@@ -1,9 +1,11 @@
 package com.example.android.basicnotifications;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +24,9 @@ public class MainActivity extends Activity {
      * unique system-wide.
      */
     public static final int NOTIFICATION_ID = 1;
+    public static final int NOTIFICATION_ID2 = 2;
+    public static final int NOTIFICATION_ID3 = 3;
+    public static final int NOTIFICATION_ID4 = 4 ;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +101,32 @@ public class MainActivity extends Activity {
 //        builder.addAction(R.drawable.ic_map, getString(R.string.map), mapPendingIntent);
 //
 
+        //add more pages to the wearable notification
+        NotificationCompat.BigTextStyle secondPageStyle = new NotificationCompat.BigTextStyle();
+        secondPageStyle.setBigContentTitle("Page 2")
+                .bigText("A lot of text");
+
+        Notification secondPageNotification = new NotificationCompat.Builder(this)
+                .setStyle(secondPageStyle)
+                .build();
+
+        //add a third page
+        NotificationCompat.BigTextStyle thirdPageStyle = new NotificationCompat.BigTextStyle();
+        thirdPageStyle.setBigContentTitle("Page 3")
+                .bigText("A lot of text3");
+
+        Notification thirdPageNotification = new NotificationCompat.Builder(this)
+                .setStyle(thirdPageStyle)
+                .build();
+
+        Notification notification = builder
+                .extend(new NotificationCompat.WearableExtender()
+                        .addPage(secondPageNotification)
+                        .addPage(thirdPageNotification))
+                .build();
+
+
+
         // END_INCLUDE (build_notification)
 
         // BEGIN_INCLUDE(send_notification)
@@ -104,7 +135,51 @@ public class MainActivity extends Activity {
          * notification bar.
          */
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        notificationManager.notify(NOTIFICATION_ID, notification);
         // END_INCLUDE(send_notification)
     }
+
+    public void sendStackingNotification(View v) {
+        final String GROUP_KEY = "group_key";
+        Notification notification = new NotificationCompat.Builder(this)
+                .setContentTitle("New mail from bob")
+                .setContentText("subject")
+                .setSmallIcon(R.drawable.ic_stat_notification)
+                .setGroup(GROUP_KEY)
+                .build();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(NOTIFICATION_ID2, notification);
+
+        Notification notification2 = new NotificationCompat.Builder(this)
+                .setContentTitle("New mail from noah")
+                .setContentText("subject2")
+                .setSmallIcon(R.drawable.ic_stat_notification)
+                .setGroup(GROUP_KEY)
+                .build();
+
+        notificationManager.notify(NOTIFICATION_ID3, notification2);
+
+        //also build a summary notification for handhelds
+
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.ic_stat_notification);
+
+        Notification notificationSummary = new NotificationCompat.Builder(this)
+                .setContentTitle("2 new messages")
+                .setSmallIcon(R.drawable.ic_stat_notification)
+                .setLargeIcon(largeIcon)
+                .setStyle(new NotificationCompat.InboxStyle()
+                    .addLine("Bob message")
+                    .addLine("Noah message")
+                    .setBigContentTitle("2 new messages")
+                    .setSummaryText("email@email.com"))
+                .setGroup(GROUP_KEY)
+                .setGroupSummary(true)
+                .build();
+
+        notificationManager.notify(NOTIFICATION_ID4, notificationSummary);
+    }
+
+
 }

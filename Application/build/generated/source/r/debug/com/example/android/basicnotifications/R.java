@@ -277,6 +277,7 @@ containing a value of this type.
         public static final int alignMargins=0x7f080003;
         public static final int bottom=0x7f080004;
         public static final int button=0x7f080014;
+        public static final int button2=0x7f080015;
         public static final int center=0x7f080005;
         public static final int center_horizontal=0x7f080006;
         public static final int center_vertical=0x7f080007;

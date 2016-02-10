@@ -45,6 +45,7 @@ int id alignBounds 0x7f080002
 int id alignMargins 0x7f080003
 int id bottom 0x7f080004
 int id button 0x7f080014
+int id button2 0x7f080015
 int id center 0x7f080005
 int id center_horizontal 0x7f080006
 int id center_vertical 0x7f080007

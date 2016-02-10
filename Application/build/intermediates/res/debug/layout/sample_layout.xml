@@ -34,10 +34,18 @@ limitations under the License.
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do it!"
+        android:text="Do it! paged"
         android:id="@+id/button"
         android:layout_gravity="center"
         android:onClick="sendNotification"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do it! Stacking"
+        android:id="@+id/button2"
+        android:layout_gravity="center"
+        android:onClick="sendStackingNotification"/>
 
 </LinearLayout>
 <!-- From: file:/Users/webteam/Documents/android/BasicNotifications/Application/src/main/res/layout/sample_layout.xml -->
